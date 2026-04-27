@@ -2,8 +2,8 @@
 agof:
   extraPlaybookOpts: '-vvv'
 
-  agof_repo: https://github.com/mhjacks/agof.git
-  agof_revision: optionalize_secrets
+  agof_repo: https://github.com/validatedpatterns/agof.git
+  agof_revision: v2
 
   iac_repo: https://github.com/validatedpatterns-demos/agof_null_config
   iac_revision: main
