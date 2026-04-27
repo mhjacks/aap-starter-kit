@@ -59,8 +59,10 @@ clusterGroup:
         - name: vault.csi.enabled
           value: true
           forceString: true
-        - name: global.openshift
-          value: true
+        - name: vault.csi.image.repository
+          value: "registry.connect.redhat.com/hashicorp/vault-csi-provider"
+        - name: vault.csi.image.tag
+          value: "1.7.0-ubi"
   imperative:
     image: quay.io/martjack/vp-utility-container-test:latest
   managedClusterGroups: {}
