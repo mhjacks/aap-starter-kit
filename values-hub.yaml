@@ -55,7 +55,6 @@ clusterGroup:
           forceString: true
         - name: global.openshift
           value: true
-          forceString: true
   imperative:
     image: quay.io/martjack/vp-utility-container-test:latest
   managedClusterGroups: {}
