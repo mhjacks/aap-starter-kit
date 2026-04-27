@@ -6,3 +6,4 @@ agof:
   agof_repo: https://github.com/mhjacks/agof
   agof_revision: skip_vault_magic
   extraPlaybookOpts: '-vvv'
+  doAutoHubVaultConfig: false
