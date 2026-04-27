@@ -53,7 +53,7 @@ clusterGroup:
         - name: vault.csi.enabled
           value: true
           forceString: true
-        - name: vault.global.openshift
+        - name: global.openshift
           value: true
           forceString: true
   imperative:
