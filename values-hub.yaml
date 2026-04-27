@@ -15,6 +15,10 @@ clusterGroup:
       name: ansible-automation-platform-operator
       namespace: ansible-automation-platform
       channel: stable-2.6
+    eso:
+      name: openshift-external-secrets-operator
+      namespace: external-secrets-operator
+      channel: stable-v1
   applications:
     aap:
       name: ansible-automation-platform
@@ -28,14 +32,16 @@ clusterGroup:
       chartVersion: 0.2.*
       extraValueFiles:
         - $patternref/overrides/values-aap-config-aeg.yaml
-    eso:
-      name: openshift-external-secrets-operator
-      namespace: external-secrets-operator
-      channel: stable-v1
     vault:
       name: vault
       namespace: vault
       chart: hashicorp-vault
       chartVersion: 0.1.*
+    openshift-external-secrets:
+      name: openshift-external-secrets
+      namespace: external-secrets
+      argoProject: hub
+      chart: openshift-external-secrets
+      chartVersion: 0.0.*
   imperative: {}
   managedClusterGroups: {}
