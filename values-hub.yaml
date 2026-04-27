@@ -63,6 +63,10 @@ clusterGroup:
           value: "registry.connect.redhat.com/hashicorp/vault-csi-provider"
         - name: vault.csi.image.tag
           value: "1.7.0-ubi"
+        - name: vault.csi.agent.image.repository
+          value: "registry.connect.redhat.com/hashicorp/vault"
+        - name: vault.csi.agent.image.tag
+          value: "1.21.2-ubi"
   imperative:
     image: quay.io/martjack/vp-utility-container-test:latest
   managedClusterGroups: {}
