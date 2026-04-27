@@ -53,6 +53,9 @@ clusterGroup:
         - name: vault.csi.enabled
           value: true
           forceString: true
+        - name: vault.global.openshift
+          value: true
+          forceString: true
   imperative:
     image: quay.io/martjack/vp-utility-container-test:latest
   managedClusterGroups: {}
