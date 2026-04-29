@@ -39,6 +39,23 @@ clusterGroup:
       repoURL: https://github.com/mhjacks/aap-config-chart.git
       chartVersion: test_sscsi
       path: "."
+      overrides:
+        # aap-config-chart test_sscsi: deliver aap-manifest via Vault CSI (openshift-sscsi-vault subchart) instead of ExternalSecret.
+        - name: aapManifest.csi.enabled
+          value: true
+        # Workload identity for Vault CSI (SecretProviderClass namespace + tokenreview binding); rhvp.cluster_utils can read these to extend hub Kubernetes auth.
+        - name: serviceAccountName
+          value: aap-config-sa
+        - name: serviceAccountNamespace
+          value: aap-config
+        - name: openshift-sscsi-vault.ocpSecretsStoreCsiVault.rbac.rolename
+          value: hub-role
+        - name: openshift-sscsi-vault.ocpSecretsStoreCsiVault.rbac.serviceAccount.create
+          value: false
+        - name: openshift-sscsi-vault.ocpSecretsStoreCsiVault.rbac.serviceAccount.name
+          value: aap-config-sa
+        - name: openshift-sscsi-vault.ocpSecretsStoreCsiVault.rbac.serviceAccount.namespace
+          value: aap-config
       extraValueFiles:
         - $patternref/overrides/values-aap-config-aeg.yaml
     openshift-external-secrets:
