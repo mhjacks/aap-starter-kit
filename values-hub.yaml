@@ -106,6 +106,9 @@ clusterGroup:
         annotations:
           # After operator CSV: docs order is install operator then create ClusterCSIDriver.
           argocd.argoproj.io/sync-wave: "15"
+      # spec must not be empty: OperatorSpec requires managementState; omit driverConfig entirely (do not set {}).
       spec:
         managementState: Managed
+        logLevel: Normal
+        operatorLogLevel: Normal
   managedClusterGroups: {}
