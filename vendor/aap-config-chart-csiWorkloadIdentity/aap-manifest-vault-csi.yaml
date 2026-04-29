@@ -1,0 +1,36 @@
+{{- if eq (include "aap-config.manifestCsiEnabled" .) "true" }}
+{{- $sc := index .Subcharts "openshift-sscsi-vault" }}
+{{- if not $sc }}
+{{- fail "aapManifest.csi.enabled requires the openshift-sscsi-vault chart dependency (run helm dependency update)." }}
+{{- end }}
+{{- $scg := default dict $sc.Values.clusterGroup }}
+{{- $pcg := default dict $.Values.clusterGroup }}
+{{- $cg := mergeOverwrite $scg $pcg }}
+{{- $sapps := default dict $scg.applications }}
+{{- $papps := default dict $pcg.applications }}
+{{- $_ := set $cg "applications" (mergeOverwrite $sapps $papps) }}
+{{- $parentVault := default dict (index $.Values "openshift-sscsi-vault") }}
+{{- $id := $.Values.csiWorkloadIdentity | default dict }}
+{{- $ociPatch := dict }}
+{{- if and $id (eq true (default false $id.enabled)) }}
+{{- $sa := required "csiWorkloadIdentity.serviceAccount is required when csiWorkloadIdentity.enabled" $id.serviceAccount }}
+{{- $ns := required "csiWorkloadIdentity.namespace is required when csiWorkloadIdentity.enabled" $id.namespace }}
+{{- $mount := default "hub" $id.vaultAuthMount }}
+{{- $app := default "aap-config" $id.appKey }}
+{{- $explicit := $id.vaultKubernetesAuthRole | default "" | trim }}
+{{- $slug := include "aap-config.vaultSscsiSlug" (dict "ns" $ns "sa" $sa "app" $app) }}
+{{- $computed := printf "%s-sscsi-%s" $mount $slug }}
+{{- $role := ternary $explicit $computed (ne $explicit "") }}
+{{- $rbac := dict "rolename" $role "serviceAccount" (dict "create" false "name" $sa "namespace" $ns) }}
+{{- $oci := dict "rbac" $rbac }}
+{{- if hasKey $id "vaultSkipTLSVerify" }}
+{{- $_ := set $oci "tls" (dict "vaultSkipTLSVerify" ($id.vaultSkipTLSVerify | toString)) }}
+{{- end }}
+{{- $ociPatch = dict "ocpSecretsStoreCsiVault" $oci }}
+{{- end }}
+{{- $vaultVals := mergeOverwrite $sc.Values $parentVault (dict "clusterGroup" $cg) $ociPatch }}
+{{- $vaultCtx := dict "Chart" $sc.Chart "Capabilities" $sc.Capabilities "Release" $sc.Release "Values" $vaultVals }}
+{{- include "openshift_sscsi_vault.secretproviderclass" $vaultCtx }}
+---
+{{- include "openshift_sscsi_vault.workload_rbac" $vaultCtx }}
+{{- end }}

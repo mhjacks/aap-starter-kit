@@ -1,0 +1,35 @@
+# Helm values for aap-config Vault CSI. Unified workload identity: keep this block aligned with
+# clusterGroup.applications.aap-config.ssCsiWorkloadAuth in values-hub.yaml (Ansible).
+#
+# vaultKubernetesAuthRole: leave empty if rhvp.cluster_utils uses vault_ss_csi_role_slug_mode:
+# stable_slug (role will be hub-sscsi-<ns>-<sa>-<appKey>). If Ansible uses default hash mode,
+# set vaultKubernetesAuthRole to the hub-sscsi-<sha1> value from the vault playbook summary.
+
+---
+csiWorkloadIdentity:
+  enabled: true
+  serviceAccount: aap-config-sa
+  namespace: aap-config
+  vaultAuthMount: hub
+  appKey: aap-config
+  vaultKubernetesAuthRole: ""
+  vaultSkipTLSVerify: "true"
+
+aapManifest:
+  csi:
+    enabled: true
+
+openshift-sscsi-vault:
+  ocpSecretsStoreCsiVault:
+    secretProviderClass:
+      installDefaultManifests: false
+      enabled: true
+      name: aap-manifest-vault
+    objects:
+      - objectName: b64content
+        secretPath: secret/data/hub/aap-manifest
+        secretKey: b64content
+    secretObjects: []
+    vault:
+      externalAddress: ""
+      hubMountPath: hub
