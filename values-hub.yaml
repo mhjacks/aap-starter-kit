@@ -31,13 +31,13 @@ clusterGroup:
       # Required whenever sequenceJob is set: clustergroup coalesce() still evaluates get($subs.annotations,...).
       annotations: {}
       # Wait for default catalog so OLM does not sit in "Unknown" / InstallPlan pending (Argo stays on Subscription health).
-      sequenceJob:
-        disabled: false
-        hookType: Sync
-        syncWave: "-3"
-        resourceType: catalogsource
-        resourceName: redhat-operators
-        resourceNamespace: openshift-marketplace
+#      sequenceJob:
+#        disabled: false
+#        hookType: Sync
+#        syncWave: "-3"
+#        resourceType: catalogsource
+#        resourceName: redhat-operators
+#        resourceNamespace: openshift-marketplace
     eso:
       name: openshift-external-secrets-operator
       namespace: external-secrets-operator
