@@ -25,6 +25,16 @@ clusterGroup:
       name: secrets-store-csi-driver-operator
       namespace: openshift-cluster-csi-drivers
       channel: stable
+      source: redhat-operators
+      sourceNamespace: openshift-marketplace
+      # Wait for default catalog so OLM does not sit in "Unknown" / InstallPlan pending (Argo stays on Subscription health).
+      sequenceJob:
+        disabled: false
+        hookType: Sync
+        syncWave: "-3"
+        resourceType: catalogsource
+        resourceName: redhat-operators
+        resourceNamespace: openshift-marketplace
     eso:
       name: openshift-external-secrets-operator
       namespace: external-secrets-operator
@@ -89,7 +99,8 @@ clusterGroup:
       metadata:
         name: secrets-store.csi.k8s.io
         annotations:
-          argocd.argoproj.io/sync-wave: "5"
+          # After operator CSV: docs order is install operator then create ClusterCSIDriver.
+          argocd.argoproj.io/sync-wave: "15"
       spec:
         managementState: Managed
   managedClusterGroups: {}
