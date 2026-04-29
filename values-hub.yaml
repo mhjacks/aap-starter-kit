@@ -12,6 +12,10 @@ clusterGroup:
     openshift-sscsi-vault-demo:
     ansible-automation-platform:
     aap-config:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/audit: privileged
+        pod-security.kubernetes.io/warn: privileged
   subscriptions:
     aap-operator:
       name: ansible-automation-platform-operator
