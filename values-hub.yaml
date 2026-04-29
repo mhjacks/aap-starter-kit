@@ -23,7 +23,7 @@ clusterGroup:
       channel: stable-2.6
     openshift-sscsi:
       name: secrets-store-csi-driver-operator
-      namesapce: openshift-cluster-csi-drivers
+      namespace: openshift-cluster-csi-drivers
       channel: stable
     eso:
       name: openshift-external-secrets-operator
@@ -80,4 +80,16 @@ clusterGroup:
           value: true
   imperative:
     image: quay.io/martjack/vp-utility-container-test:latest
+  # OCP: Secrets Store CSI operator alone does not register the driver; ClusterCSIDriver is required
+  # (see "Installing the Secrets Store CSI driver" in OpenShift CSI docs).
+  extraObjects:
+    secrets-store-csi-clustercsidriver:
+      apiVersion: operator.openshift.io/v1
+      kind: ClusterCSIDriver
+      metadata:
+        name: secrets-store.csi.k8s.io
+        annotations:
+          argocd.argoproj.io/sync-wave: "5"
+      spec:
+        managementState: Managed
   managedClusterGroups: {}
