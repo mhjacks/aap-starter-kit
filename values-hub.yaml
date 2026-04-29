@@ -45,6 +45,12 @@ clusterGroup:
       repoURL: https://github.com/mhjacks/aap-config-chart.git
       chartVersion: test_sscsi
       path: "."
+      # rhvp.cluster_utils: vault_secrets_init → vault_ss_csi_workload_auth reads this and creates
+      # auth/<vault_hub>/role/<vault_hub>-sscsi-<sha> for each entry (policies = hub-role set).
+      ssCsiWorkloadAuth:
+        - serviceAccount: aap-config-sa
+          namespace: aap-config
+          cluster: hub
       overrides:
         # aap-config-chart test_sscsi: deliver aap-manifest via Vault CSI (openshift-sscsi-vault subchart) instead of ExternalSecret.
         - name: aapManifest.csi.enabled
