@@ -62,6 +62,8 @@ clusterGroup:
           value: aap-config-sa
         - name: openshift-sscsi-vault.ocpSecretsStoreCsiVault.rbac.serviceAccount.namespace
           value: aap-config
+        - name: openshift-sscsi-vault.ocpSecretsStoreCsiVault.tls.vaultSkipTLSVerify
+          value: true
       extraValueFiles:
         - $patternref/overrides/values-aap-config-aeg.yaml
     openshift-external-secrets:
