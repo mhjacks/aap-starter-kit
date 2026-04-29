@@ -8,8 +8,6 @@ clusterGroup:
       operatorGroup: true
       targetNamespaces: []
     external-secrets:
-    openshift-sscsi:
-    openshift-sscsi-vault-demo:
     ansible-automation-platform:
     aap-config:
       labels:
@@ -92,6 +90,9 @@ clusterGroup:
       overrides:
         - name: vault.csi.enabled
           value: true
+        # OpenShift: provider DaemonSet must publish sockets where the Secrets Store CSI driver looks (not /var/run/...).
+        - name: vault.csi.daemonSet.providersDir
+          value: /etc/kubernetes/secrets-store-csi-providers
   imperative:
     image: quay.io/martjack/vp-utility-container-test:latest
   # OCP: Secrets Store CSI operator alone does not register the driver; ClusterCSIDriver is required
