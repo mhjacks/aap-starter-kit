@@ -74,6 +74,8 @@ clusterGroup:
       repoURL: https://github.com/mhjacks/hashicorp-vault-chart.git
       chartVersion: add_csi
       path: "."
+      extraValueFiles:
+        - $patternref/overrides/values-vault-csi-tls-ca.yaml
       overrides:
         - name: vault.csi.enabled
           value: true

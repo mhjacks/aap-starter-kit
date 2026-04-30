@@ -1,0 +1,16 @@
+# Referenced from values-hub.yaml clusterGroup.applications.vault.extraValueFiles so Argo merges this
+# into the Vault Helm release. Mounts the ConfigMap synced by aap-config into the Vault CSI provider
+# DaemonSet at /etc/pki/vault-ca (must match openshift-sscsi-vault.caProvider.syncProviderCaConfigMap.mountDir).
+# Argo uses client-side helm template: put the PEM in openshift-sscsi-vault.caProvider.syncProviderCaConfigMap.pemLiteral
+# (e.g. SOPS) or create the ConfigMap elsewhere and set createConfigMap: false — do not rely on helm lookup().
+---
+vault:
+  csi:
+    volumes:
+      - name: openshift-sscsi-vault-ca
+        configMap:
+          name: openshift-sscsi-vault-vault-tls-ca
+    volumeMounts:
+      - name: openshift-sscsi-vault-ca
+        mountPath: /etc/pki/vault-ca
+        readOnly: true

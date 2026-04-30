@@ -20,9 +20,11 @@ aapManifest:
 
 openshift-sscsi-vault:
   ocpSecretsStoreCsiVault:
-    # TLS verify on; omit vaultCACertPath unless you mount a PEM on the Vault CSI provider pod (see chart caProvider / tls.vaultCACertPath).
+    # TLS: syncProviderCaConfigMap + mount CM on Vault CSI provider (see aap-config-chart values comments).
     caProvider:
-      enabled: false
+      enabled: true
+      syncProviderCaConfigMap:
+        enabled: true
     secretProviderClass:
       installDefaultManifests: false
       enabled: true
