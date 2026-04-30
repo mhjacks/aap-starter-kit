@@ -13,7 +13,6 @@ csiWorkloadIdentity:
   vaultAuthMount: hub
   appKey: aap-config
   vaultKubernetesAuthRole: ""
-  vaultSkipTLSVerify: "true"
 
 aapManifest:
   csi:
@@ -21,9 +20,8 @@ aapManifest:
 
 openshift-sscsi-vault:
   ocpSecretsStoreCsiVault:
-    # Hub route TLS: skip verify unless you mount a CA the Vault CSI provider can read (vaultCACertPath).
-    tls:
-      vaultSkipTLSVerify: "true"
+    # TLS: chart default is verify on; CA path uses caProvider (same hub/spoke branch as ESO ClusterSecretStore).
+    # Override openshift-sscsi-vault.ocpSecretsStoreCsiVault.tls only if needed, e.g. vaultSkipTLSVerify: "true" for break-glass.
     secretProviderClass:
       installDefaultManifests: false
       enabled: true
