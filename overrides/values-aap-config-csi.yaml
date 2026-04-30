@@ -13,7 +13,7 @@ csiWorkloadIdentity:
   vaultAuthMount: hub
   appKey: aap-config
   vaultKubernetesAuthRole: ""
-  vaultSkipTLSVerify: "true"
+  #vaultSkipTLSVerify: "true"
 
 aapManifest:
   csi:
