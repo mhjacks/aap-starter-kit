@@ -20,8 +20,9 @@ aapManifest:
 
 openshift-sscsi-vault:
   ocpSecretsStoreCsiVault:
-    # TLS: chart default is verify on; CA path uses caProvider (same hub/spoke branch as ESO ClusterSecretStore).
-    # Override openshift-sscsi-vault.ocpSecretsStoreCsiVault.tls only if needed, e.g. vaultSkipTLSVerify: "true" for break-glass.
+    # TLS verify on; omit vaultCACertPath unless you mount a PEM on the Vault CSI provider pod (see chart caProvider / tls.vaultCACertPath).
+    caProvider:
+      enabled: false
     secretProviderClass:
       installDefaultManifests: false
       enabled: true
