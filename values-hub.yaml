@@ -8,6 +8,9 @@ clusterGroup:
       operatorGroup: true
       targetNamespaces: []
     external-secrets:
+    openshift-cluster-csi-drivers:
+      operatorGroup: true
+      targetNamespaces: []
     ansible-automation-platform:
     aap-config:
       labels:
