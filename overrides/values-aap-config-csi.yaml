@@ -21,6 +21,9 @@ aapManifest:
 
 openshift-sscsi-vault:
   ocpSecretsStoreCsiVault:
+    # Hub route TLS: skip verify unless you mount a CA the Vault CSI provider can read (vaultCACertPath).
+    tls:
+      vaultSkipTLSVerify: "true"
     secretProviderClass:
       installDefaultManifests: false
       enabled: true
