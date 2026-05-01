@@ -22,7 +22,6 @@ clusterGroup:
       name: ansible-automation-platform-operator
       namespace: ansible-automation-platform
       channel: stable-2.6
-      annotations: {}
     openshift-sscsi:
       name: secrets-store-csi-driver-operator
       namespace: openshift-cluster-csi-drivers
@@ -33,7 +32,6 @@ clusterGroup:
       name: openshift-external-secrets-operator
       namespace: external-secrets-operator
       channel: stable-v1
-      annotations: {}
   applications:
     aap:
       name: ansible-automation-platform
