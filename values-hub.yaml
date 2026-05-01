@@ -85,6 +85,29 @@ clusterGroup:
   imperative:
     image: quay.io/martjack/vp-utility-container-test:latest
     verbosity: '-vvv'
+    # clustergroup-chart replaces the default imperative ClusterRole rules when this is set (see
+    # templates/imperative/clusterrole.yaml), so keep the chart default get/list/watch on * plus
+    # create/update/patch on ConfigMaps cluster-wide (vault_ss_csi_* route CA ConfigMaps, etc.).
+    clusterRoleYaml:
+      - apiGroups:
+          - '*'
+        resources:
+          - '*'
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - ''
+        resources:
+          - configmaps
+        verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
   # OCP: Secrets Store CSI operator alone does not register the driver; ClusterCSIDriver is required
   # (see "Installing the Secrets Store CSI driver" in OpenShift CSI docs).
   extraObjects:
