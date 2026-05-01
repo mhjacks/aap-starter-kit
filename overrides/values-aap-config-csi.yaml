@@ -20,11 +20,15 @@ aapManifest:
 
 openshift-sscsi-vault:
   ocpSecretsStoreCsiVault:
-    # TLS: syncProviderCaConfigMap + mount CM on Vault CSI provider (see aap-config-chart values comments).
+    # TLS: rhvp.cluster_utils creates CM openshift-sscsi-vault-vault-tls-ca; vault release mounts it
+    # (values-vault-csi-tls-ca.yaml). createConfigMap must be false so the SPC always gets
+    # vaultCACertPath = mountDir/keyInConfigMap (openshift-sscsi-vault-chart); true + empty pemLiteral
+    # omits vaultCACertPath and hub Vault login fails with unknown authority.
     caProvider:
       enabled: true
       syncProviderCaConfigMap:
         enabled: true
+        createConfigMap: false
     secretProviderClass:
       installDefaultManifests: false
       enabled: true
