@@ -6,15 +6,25 @@
 # ConfigMap openshift-sscsi-vault-vault-tls-ca with inject-trusted-cabundle; CNO fills ca-bundle.crt
 # (cluster defaults + Proxy trustedCA, same merge model as vp-manage-proxy-cluster-ca-chart).
 # SecretProviderClass vaultCACertPath points at mountDir/ca-bundle.crt.
-# Legacy Ansible PEM at vault-tls-ca.pem: turn off injection in values-aap-config-csi.yaml and keep
-# this volume mount; adjust key if you change keyInConfigMap.
+# Legacy Ansible PEM at vault-tls-ca.pem: turn off injection in values-aap-config-csi.yaml and use a
+# plain configMap volume (all keys) instead of projected items below; align key with keyInConfigMap.
+#
+# Projected volume: only mount trustedCabundleDataKey (default ca-bundle.crt) with optional: true so
+# the CSI pod schedules before CNO fills the key; matches openshift-sscsi-vault Argo drift ignore path.
 ---
 vault:
   csi:
     volumes:
       - name: openshift-sscsi-vault-ca
-        configMap:
-          name: openshift-sscsi-vault-vault-tls-ca
+        projected:
+          defaultMode: 420
+          sources:
+            - configMap:
+                name: openshift-sscsi-vault-vault-tls-ca
+                optional: true
+                items:
+                  - key: ca-bundle.crt
+                    path: ca-bundle.crt
     volumeMounts:
       - name: openshift-sscsi-vault-ca
         mountPath: /etc/pki/vault-ca
