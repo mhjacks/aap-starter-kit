@@ -59,6 +59,16 @@ clusterGroup:
       extraValueFiles:
         - $patternref/overrides/values-aap-config-csi.yaml
         - $patternref/overrides/values-aap-config-aeg.yaml
+      # CNO fills sync TLS ConfigMap data after apply; tell Argo not to fight live cluster state.
+      ignoreDifferences:
+        - group: ""
+          kind: ConfigMap
+          name: openshift-sscsi-vault-vault-tls-ca
+          namespace: vault
+          jsonPointers:
+            - /data/ca-bundle.crt
+          jqPathExpressions:
+            - '.data["ca-bundle.crt"]'
     openshift-external-secrets:
       name: openshift-external-secrets
       namespace: external-secrets
