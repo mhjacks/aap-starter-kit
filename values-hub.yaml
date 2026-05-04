@@ -80,6 +80,12 @@ clusterGroup:
         # OpenShift: provider DaemonSet must publish sockets where the Secrets Store CSI driver looks (not /var/run/...).
         - name: vault.csi.daemonSet.providersDir
           value: /etc/kubernetes/secrets-store-csi-providers
+    vp-cluster-truster:
+      name: vp-manage-proxy-cluster-ca
+      namespace: openshift-config
+      chartVersion: main
+      repoURL: https://github.com/mhjacks/vp-manage-proxy-cluster-ca-chart.git
+      path: '.'
   imperative:
     image: quay.io/martjack/vp-utility-container-test:latest
     verbosity: '-vvv'
