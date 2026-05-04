@@ -90,6 +90,9 @@ clusterGroup:
       chartVersion: main
       repoURL: https://github.com/mhjacks/vp-manage-proxy-cluster-ca-chart.git
       path: '.'
+      overrides:
+        - name: acm.enabled
+          value: false
   imperative:
     image: quay.io/martjack/vp-utility-container-test:latest
     verbosity: '-vvv'
