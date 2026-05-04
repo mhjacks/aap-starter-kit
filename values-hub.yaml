@@ -60,8 +60,6 @@ clusterGroup:
         - $patternref/overrides/values-aap-config-csi.yaml
         - $patternref/overrides/values-aap-config-aeg.yaml
       # CNO fills sync TLS ConfigMap data after apply; tell Argo not to fight live cluster state.
-      syncOptions:
-        - RespectIgnoreDifferences=true
       ignoreDifferences:
         - group: ""
           kind: ConfigMap
@@ -71,6 +69,13 @@ clusterGroup:
             - /data/ca-bundle.crt
           jqPathExpressions:
             - '.data["ca-bundle.crt"]'
+      # Per-app object replaces global.options.syncPolicy shorthand for this Application only.
+      syncPolicy:
+        automated: {}
+        retry:
+          limit: 20
+        syncOptions:
+          - RespectIgnoreDifferences=true
     openshift-external-secrets:
       name: openshift-external-secrets
       namespace: external-secrets
