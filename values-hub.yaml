@@ -60,6 +60,8 @@ clusterGroup:
         - $patternref/overrides/values-aap-config-csi.yaml
         - $patternref/overrides/values-aap-config-aeg.yaml
       # CNO fills sync TLS ConfigMap data after apply; tell Argo not to fight live cluster state.
+      syncOptions:
+          - RespectIgnoreDifferences=true
       ignoreDifferences:
         - group: ""
           kind: ConfigMap
