@@ -72,6 +72,8 @@ clusterGroup:
       repoURL: https://github.com/mhjacks/hashicorp-vault-chart.git
       chartVersion: add_csi
       path: "."
+      # CSI CA mount: same ConfigMap name as openshift-sscsi-vault syncProviderCaConfigMap (CNO-injected
+      # bundle by default; see overrides/values-aap-config-csi.yaml + values-vault-csi-tls-ca.yaml).
       extraValueFiles:
         - $patternref/overrides/values-vault-csi-tls-ca.yaml
       overrides:
@@ -80,6 +82,8 @@ clusterGroup:
         # OpenShift: provider DaemonSet must publish sockets where the Secrets Store CSI driver looks (not /var/run/...).
         - name: vault.csi.daemonSet.providersDir
           value: /etc/kubernetes/secrets-store-csi-providers
+    # Hub/spoke Proxy trustedCA + bundle aggregation (chart defaults align with CNO-injected trust
+    # used by openshift-sscsi-vault / external-secrets-style patterns; optional extraValueFiles if needed).
     vp-cluster-truster:
       name: vp-manage-proxy-cluster-ca
       namespace: openshift-config

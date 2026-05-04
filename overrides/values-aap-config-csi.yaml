@@ -4,6 +4,10 @@
 # vaultKubernetesAuthRole: leave empty if rhvp.cluster_utils uses vault_ss_csi_role_slug_mode:
 # stable_slug (role will be hub-sscsi-<ns>-<sa>-<appKey>). If Ansible uses default hash mode,
 # set vaultKubernetesAuthRole to the hub-sscsi-<sha1> value from the vault playbook summary.
+#
+# TLS: aap-config-chart 0.2.11+ packaged defaults match openshift-sscsi-vault 0.0.15+ (CNO
+# inject-trusted-cabundle). Override injectTrustedCabundle / createConfigMap / pemLiteral here only
+# for legacy Ansible PEM or GitOps-only PEM paths.
 
 ---
 csiWorkloadIdentity:
@@ -20,15 +24,6 @@ aapManifest:
 
 openshift-sscsi-vault:
   ocpSecretsStoreCsiVault:
-    # TLS: rhvp.cluster_utils creates CM openshift-sscsi-vault-vault-tls-ca; vault release mounts it
-    # (values-vault-csi-tls-ca.yaml). createConfigMap must be false so the SPC always gets
-    # vaultCACertPath = mountDir/keyInConfigMap (openshift-sscsi-vault-chart); true + empty pemLiteral
-    # omits vaultCACertPath and hub Vault login fails with unknown authority.
-    caProvider:
-      enabled: true
-      syncProviderCaConfigMap:
-        enabled: true
-        createConfigMap: false
     secretProviderClass:
       installDefaultManifests: false
       enabled: true
