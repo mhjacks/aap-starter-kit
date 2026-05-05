@@ -59,6 +59,16 @@ clusterGroup:
       extraValueFiles:
         - $patternref/overrides/values-aap-config-csi.yaml
         - $patternref/overrides/values-aap-config-aeg.yaml
+      # CNO fills ConfigMap.data after apply (keys/values can shift); ignore whole data blob vs one key.
+      ignoreDifferences:
+        - group: ""
+          kind: ConfigMap
+          name: openshift-sscsi-vault-vault-tls-ca
+          namespace: vault
+          jsonPointers:
+            - /data
+          jqPathExpressions:
+            - .data
       # Per-app object replaces global.options.syncPolicy shorthand for this Application only.
       syncPolicy:
         automated: {}
