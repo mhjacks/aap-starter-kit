@@ -63,7 +63,7 @@ clusterGroup:
       ignoreDifferences:
         - group: ""
           kind: ConfigMap
-          name: aap-mannifest-vault-tls-ca
+          name: aap-manifest-vault-tls-ca
           namespace: aap-config
           jsonPointers:
             - /data
