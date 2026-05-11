@@ -91,7 +91,7 @@ clusterGroup:
     vp-cluster-truster:
       name: vp-manage-proxy-cluster-ca
       namespace: openshift-config
-      chart: hashicorp-vault
+      chart: vp-manage-proxy-cluster-ca
       chartVersion: 0.1.*
       overrides:
         - name: acm.enabled
