@@ -84,7 +84,6 @@ clusterGroup:
     openshift-sscsi-vault:
       name: openshift-sscsi-vault-hubcluster
       namespace: vault
-      argoProject: hub
       chart: openshift-sscsi-vault
       chartVersion: 0.2.*
       # CNO fills ConfigMap.data after apply; ignore whole data blob vs one key.
