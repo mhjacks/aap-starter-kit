@@ -63,8 +63,8 @@ clusterGroup:
       ignoreDifferences:
         - group: ""
           kind: ConfigMap
-          name: openshift-sscsi-vault-vault-tls-ca
-          namespace: vault
+          name: aap-mannifest-vault-tls-ca
+          namespace: aap-config
           jsonPointers:
             - /data
           jqPathExpressions:
