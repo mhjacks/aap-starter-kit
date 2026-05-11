@@ -1,16 +1,11 @@
-# Referenced from values-hub.yaml clusterGroup.applications.vault.extraValueFiles so Argo merges this
-# into the Vault Helm release. Mounts the ConfigMap at /etc/pki/vault-ca (must match
-# openshift-sscsi-vault.caProvider.syncProviderCaConfigMap.mountDir).
+# Vault Helm values merged via values-hub clusterGroup.applications.vault.extraValueFiles.
+# Mount path must match openshift-sscsi-vault.caProvider.syncProviderCaConfigMap.mountDir from
+# aap-config (defaults). ConfigMap openshift-sscsi-vault-vault-tls-ca is rendered by aap-config;
+# TLS/CNO behavior is documented in overrides/values-aap-config-csi.yaml.
 #
-# Default (openshift-sscsi-vault 0.0.15+ + overrides/values-aap-config-csi.yaml): aap-config renders
-# ConfigMap openshift-sscsi-vault-vault-tls-ca with inject-trusted-cabundle; CNO fills ca-bundle.crt
-# (cluster defaults + Proxy trustedCA, same merge model as vp-manage-proxy-cluster-ca-chart).
-# SecretProviderClass vaultCACertPath points at mountDir/ca-bundle.crt.
-# Legacy Ansible PEM at vault-tls-ca.pem: turn off injection in values-aap-config-csi.yaml and use a
-# plain configMap volume (all keys) instead of projected items below; align key with keyInConfigMap.
-#
-# Projected volume: only mount trustedCabundleDataKey (default ca-bundle.crt) with optional: true so
-# the CSI pod schedules before CNO fills the key; matches openshift-sscsi-vault Argo drift ignore path.
+# Optional projected item + ignoreDifferences on that ConfigMap (values-hub aap-config app): pod can
+# schedule before CNO writes ca-bundle.crt. Legacy PEM-only mounts: switch volume style in
+# values-aap-config-csi.yaml instead of this file.
 ---
 vault:
   csi:

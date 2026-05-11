@@ -1,13 +1,14 @@
-# Helm values for aap-config Vault CSI. Unified workload identity: keep this block aligned with
-# clusterGroup.applications.aap-config.ssCsiWorkloadAuth in values-hub.yaml (Ansible).
+# Vault CSI for aap-config (openshift-sscsi-vault / vp-sscsi-spc-chart subchart).
+# Keep csiWorkloadIdentity.serviceAccount|namespace|appKey aligned with
+# clusterGroup.applications.aap-config.ssCsiWorkloadAuth in values-hub.yaml (rhvp.cluster_utils
+# vault_ss_csi_workload_auth uses the latter for Kubernetes auth roles).
 #
-# vaultKubernetesAuthRole: leave empty if rhvp.cluster_utils uses vault_ss_csi_role_slug_mode:
-# stable_slug (role will be hub-sscsi-<ns>-<sa>-<appKey>). If Ansible uses default hash mode,
-# set vaultKubernetesAuthRole to the hub-sscsi-<sha1> value from the vault playbook summary.
+# vaultKubernetesAuthRole: empty under vault_ss_csi_role_slug_mode stable_slug (Vault role name is
+# <vault_hub>-sscsi-<namespace>-<serviceAccount>-<appKey>). If hash mode, set to the hub-sscsi-<sha1>
+# value from the vault playbook summary.
 #
-# TLS: aap-config-chart 0.2.11+ packaged defaults match openshift-sscsi-vault 0.0.15+ (CNO
-# inject-trusted-cabundle). Override injectTrustedCabundle / createConfigMap / pemLiteral here only
-# for legacy Ansible PEM or GitOps-only PEM paths.
+# TLS defaults (aap-config-chart / openshift-sscsi-vault with CNO inject-trusted-cabundle): override
+# injectTrustedCabundle / createConfigMap / pemLiteral only for legacy PEM flows.
 
 ---
 csiWorkloadIdentity:

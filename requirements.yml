@@ -1,3 +1,5 @@
 ---
 collections:
   - kubernetes.core
+  # Same branch as clusterGroup.imperative.ansibleDevMode.requirementsContent (multicloud-gitops hub devmode).
+  - name: git+https://github.com/mhjacks/rhvp.cluster_utils.git,feature/sscsi-vp-proxy-cluster-ca-chart

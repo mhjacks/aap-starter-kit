@@ -47,14 +47,14 @@ clusterGroup:
       chartVersion: test_sscsi
       path: "."
       # rhvp.cluster_utils: vault_ss_csi_workload_auth reads this and creates
-      # auth/<vault_hub>/role/<vault_hub>-sscsi-<slug> (policies = hub-role set).
+      # auth/<vault_hub>/role/<vault_hub>-sscsi-<roleSlug> (policies = hub-role set).
       # Helm CSI / RBAC values live in overrides/values-aap-config-csi.yaml (single place; keep SA+ns aligned).
       ssCsiWorkloadAuth:
-        # roleSlug must match aap-config chart when csiWorkloadIdentity.vaultKubernetesAuthRole is empty
-        # (hub-sscsi-<ns>-<sa>-<appKey>); see overrides/values-aap-config-csi.yaml.
+        # roleSlug is stable_slug <namespace>-<serviceAccount>-<appKey> (Ansible creates Vault role
+        # <vault_hub>-sscsi-<roleSlug>). Must match aap-config when vaultKubernetesAuthRole is empty;
+        # see overrides/values-aap-config-csi.yaml.
         - serviceAccount: aap-config-sa
           namespace: aap-config
-          cluster: hub
           roleSlug: aap-config-aap-config-sa-aap-config
       extraValueFiles:
         - $patternref/overrides/values-aap-config-csi.yaml
@@ -111,8 +111,30 @@ clusterGroup:
         - name: acm.enabled
           value: false
   imperative:
-    image: quay.io/martjack/vp-utility-container-test:latest
+    # Chart default image: quay.io/validatedpatterns/utility-container (same as multicloud-gitops hub).
+    # ansibleDevMode installs rhvp.cluster_utils from Git; override imperative.image only if you need a custom util image.
     verbosity: '-vvv'
+    extraPlaybookArgs:
+      - '-e'
+      - 'pattern_dir=/git/repo'
+    ansibleDevMode:
+      enabled: true
+      requirementsFile: requirements.yml
+      requirementsContent: |
+        ---
+        collections:
+          - name: git+https://github.com/mhjacks/rhvp.cluster_utils.git,feature/sscsi-vp-proxy-cluster-ca-chart
+      ansibleCfgContent: |
+        [defaults]
+        localhost_warning=False
+        retry_files_enabled=False
+        # Retry files disabled to avoid cluttering CI/CD environments
+        interpreter_python=auto_silent
+        timeout=30
+        library=~/.ansible/plugins/modules:./ansible/plugins/modules:./common/ansible/plugins/modules:/usr/share/ansible/plugins/modules
+        roles_path=~/.ansible/roles:./ansible/roles:./common/ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
+        filter_plugins=~/.ansible/plugins/filter:./ansible/plugins/filter:./common/ansible/plugins/filter:/usr/share/ansible/plugins/filter
+        collections_path=~/.ansible/collections:/usr/share/ansible/collections
     # clustergroup-chart replaces the default imperative ClusterRole rules when this is set (see
     # templates/imperative/clusterrole.yaml), so keep the chart default get/list/watch on * plus
     # create/update/patch on ConfigMaps cluster-wide (vault_ss_csi_* route CA ConfigMaps, etc.).
