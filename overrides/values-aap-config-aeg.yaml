@@ -2,3 +2,6 @@
 agof:
   iac_repo: https://github.com/validatedpatterns-demos/agof_null_config
   iac_revision: main
+
+  agof_repo: https://github.com/mhjacks/agof.git
+  agof_revision: aap_27_prep
