@@ -4,5 +4,8 @@ agof:
   cac_repo: git@github.com:mhjacks/agof_test_creds.git
   cac_revision: main
 
+  gitAuthSecret: git-auth-secret
+  gitAuthVaultKey: secret/data/hub/git-auth-secret
+
   agof_repo: https://github.com/mhjacks/agof.git
   agof_revision: aap_27_prep
