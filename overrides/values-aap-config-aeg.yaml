@@ -1,7 +1,8 @@
 ---
 agof:
   #cac_repo: https://github.com/validatedpatterns-demos/agof_null_config
-  cac_repo: git@github.com:mhjacks/agof_test_creds.git
+  #cac_repo: git@github.com:mhjacks/agof_test_creds.git
+  cac_repo: https://github.com/mhjacks/agof_test_creds.git
   cac_revision: main
 
   gitAuthSecret: git-auth-secret
