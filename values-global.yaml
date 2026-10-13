@@ -10,7 +10,7 @@ global:
     syncPolicy: Automatic
     useCSV: false
 main:
-  clusterGroupName: hub
+  variant: hub
   multiSourceConfig:
     enabled: true
     clusterGroupChartVersion: 0.9.*
