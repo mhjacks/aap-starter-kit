@@ -25,7 +25,7 @@ Variant values live under `variants/<name>/values-<name>.yaml`.
 | `minimal-aap` (default) | AAP 2.7 with controller and minimal CaC. Automation hub and Lightspeed disabled. |
 | `aap-with-hub` | `minimal-aap` plus OpenShift Data Foundations and automation hub. |
 | `aap-with-ao` | `minimal-aap` plus CloudNativePG (`vp-cloudnative-pg-cluster`) and Automation Orchestrator. |
-| `complete-aap-with-ao` | Automation hub, Lightspeed, and Automation Orchestrator (includes ODF and CNPG). |
+| `complete-aap-ao` | Automation hub, Lightspeed, and Automation Orchestrator (includes ODF and CNPG). |
 
 Automation hub variants need RWX storage from the Validated Patterns ODF chart.
 AO variants install the CloudNativePG operator from certified-operators; Red Hat

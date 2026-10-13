@@ -1,6 +1,6 @@
 ---
 clusterGroup:
-  name: complete-aap-with-ao
+  name: complete-aap-ao
   isHubCluster: true
   namespaces:
     vault:
