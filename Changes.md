@@ -13,5 +13,8 @@
 - AO variants use the `automation-orchestrator-instance` chart (kept at chart
   version 0.1.0 for now), including ExternalSecret projection and an OpenShift
   ConsoleLink.
+- Generate AO Postgres passwords with alphanumeric `postgresPasswordPolicy` so
+  URL-encoded special characters do not break Alembic/configparser during AO
+  startup.
 
 ## Initial Release (TBD)
