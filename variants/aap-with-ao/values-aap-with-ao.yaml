@@ -33,7 +33,7 @@ clusterGroup:
       channel: stable-v1
       source: certified-operators
     automation-orchestrator:
-      name: automation-orchestrator
+      name: automation-orchestrator-operator
       namespace: automation-orchestrator
       channel: stable
   applications:
