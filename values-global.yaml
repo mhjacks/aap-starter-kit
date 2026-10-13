@@ -14,7 +14,7 @@ global:
 main:
   # Variants live under variants/<name>/values-<name>.yaml
   # minimal-aap | aap-with-hub | aap-with-ao | complete-aap-with-ao
-  variant: minimal-aap
+  variant: complete-aap-with-ao
   multiSourceConfig:
     enabled: true
     # Need >= 0.9.57 for variants/ folder path helpers (vpNewFolderDir).
