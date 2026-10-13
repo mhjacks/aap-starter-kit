@@ -1,6 +1,8 @@
 ---
 global:
   pattern: aap-starter-kit
+  singleArgoCD: true
+  vpNewFolderDir: true
   secretLoader:
     disabled: false
   hub:
@@ -10,7 +12,10 @@ global:
     syncPolicy: Automatic
     useCSV: false
 main:
-  variant: hub
+  # Variants live under variants/<name>/values-<name>.yaml
+  # minimal-aap | aap-with-hub | aap-with-ao | complete-aap-with-ao
+  variant: minimal-aap
   multiSourceConfig:
     enabled: true
+    # Need >= 0.9.57 for variants/ folder path helpers (vpNewFolderDir).
     clusterGroupChartVersion: 0.9.*
