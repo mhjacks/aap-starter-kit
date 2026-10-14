@@ -60,10 +60,9 @@ cluster:
       secret:
         name: orchestrator-postgres-secret
       postInitApplicationSQL:
-        # postInitApplicationSQL runs as postgres; AO migrations (orchestrator)
-        # need ownership for COMMENT ON EXTENSION pgcrypto.
-        - CREATE EXTENSION IF NOT EXISTS pgcrypto;
-        - ALTER EXTENSION pgcrypto OWNER TO orchestrator;
+        # postInitApplicationSQL runs as postgres; create as orchestrator so
+        # AO migrations can COMMENT ON EXTENSION pgcrypto.
+        - SET ROLE orchestrator; CREATE EXTENSION IF NOT EXISTS pgcrypto; RESET ROLE;
     roles:
       - name: temporal
         ensure: present
