@@ -16,8 +16,7 @@ main:
   # minimal-aap | aap-with-hub | aap-with-ao | complete-aap-ao
   # Keep clusterGroup/variant names short: {name}-gitops-server-{pattern}-{name}
   # must be <= 63 characters.
-  variant: complete-aap-ao
+  variant: minimal-aap
   multiSourceConfig:
     enabled: true
-    # Need >= 0.9.57 for variants/ folder path helpers (vpNewFolderDir).
     clusterGroupChartVersion: 0.9.*
